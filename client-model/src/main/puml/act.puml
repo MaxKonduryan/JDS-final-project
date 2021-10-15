@@ -1,0 +1,29 @@
+@startuml
+
+start
+:Подключаемся к клиенту;
+
+if (Клиент доступен) then
+else (нет)
+    stop
+endif
+
+:вставить карту;
+
+split
+    :уже есть карта;
+split again
+    :карта вставлена;
+end split
+
+split
+    :вернуть карту;
+split again
+    :запросить баланс;
+end split
+
+
+
+stop
+
+@enduml

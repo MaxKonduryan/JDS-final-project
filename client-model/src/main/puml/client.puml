@@ -1,0 +1,31 @@
+@startuml
+
+enum State {
+    OFFLINE
+    SERVICE
+    STANDBY
+}
+
+class Card {
+    - number
+    - pinCode
+}
+
+class ATM {
+    - login
+    - password
+    - card
+    - state
+    - connect()
+    - disconnect()
+    - authenticate()
+    - checkCard()
+    - getBalance()
+    - returnCard()
+    - showMessage()
+    - sendState()
+    + startUp()
+    + shutDown()
+}
+
+@enduml

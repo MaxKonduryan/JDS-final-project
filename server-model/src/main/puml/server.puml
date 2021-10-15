@@ -1,0 +1,58 @@
+@startuml
+
+enum Currency {
+    RUR
+    USD
+    EUR
+}
+
+enum State {
+    OFFLINE
+    SERVICE
+    STANDBY
+}
+
+enum Status {
+    CLOSED
+    ACTIVE
+    TIMEOUT
+}
+
+class Account {
+    - card
+    - currency
+    - balance
+    - client
+    + getCurrency()
+    + getNumber()
+    + getBalance()
+    + getClient()
+}
+
+class Client {
+    - name
+    + getName()
+}
+
+class Session {
+    - atm
+    - ip
+    - status
+}
+
+class ATM {
+    - login
+    - password
+    - state
+    + getLogin()
+    + checkPassword()
+    + getState()
+}
+
+class ProcessingCenter {
+    - sessions
+    + openSession()
+    + closeSession()
+}
+
+@enduml
