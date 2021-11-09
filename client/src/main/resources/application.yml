@@ -1,0 +1,18 @@
+server:
+  port: 8091
+
+message:
+  title: "JDS ATM Client"
+  welcome: "Вставьте карту"
+  error:
+    invalid: "Некорректный номер карты и/или pin-код"
+    na: "Банкомат временно не работает по техническим причинам"
+
+processing:
+  url:
+    card: "http://localhost:8090/api/v1/card"
+    balance: "http://localhost:8090/api/v1/balance"
+
+security:
+  name: "ATM001"
+  code: "100MTA"

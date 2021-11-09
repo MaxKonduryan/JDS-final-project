@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:utext="${title}"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div>
+    <h1 th:utext="${title}"></h1>
+    <p class="info" th:utext="${message}"></p>
+</div>
+<div class="buttons">
+    <a class="button" th:href="@{/balance}">Баланс</a>
+    <a class="button" th:href="@{/return}">Вернуть карту</a>
+</div>
+</body>
+</html>

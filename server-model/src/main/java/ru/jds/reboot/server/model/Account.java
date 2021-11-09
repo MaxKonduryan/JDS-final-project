@@ -2,8 +2,10 @@ package ru.jds.reboot.server.model;
 
 import lombok.Value;
 
+import java.util.Set;
+
 @Value
 public class Account {
-    Card card;
+    Set<Card> cards;
     Balance balance;
 }

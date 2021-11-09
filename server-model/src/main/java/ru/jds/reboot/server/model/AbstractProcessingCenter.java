@@ -1,15 +1,16 @@
 package ru.jds.reboot.server.model;
 
+import java.util.Optional;
+
 public abstract class AbstractProcessingCenter {
 
-    protected abstract boolean existAccount(Card card);
-    protected abstract Account getAccount(Card card);
+    protected abstract boolean isValidCard(Card card);
+    protected abstract Optional<Account> getAccount(Card card);
 
-    protected boolean checkCard(Card card) {
-        return existAccount(card);
+    public boolean checkCard(Card card) {
+        return isValidCard(card);
     }
-    protected Balance checkBalance(Card card) {
-        Account account = getAccount(card);
-        return (account != null) ? account.getBalance() : null;
+    public Optional<Balance> checkBalance(Card card) {
+        return getAccount(card).map(Account::getBalance);
     }
 }
