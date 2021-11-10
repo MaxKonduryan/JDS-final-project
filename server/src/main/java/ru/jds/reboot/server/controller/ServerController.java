@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.jds.reboot.server.exception.CardNotFoundException;
 import ru.jds.reboot.server.model.Balance;
 import ru.jds.reboot.server.model.Card;
-import ru.jds.reboot.server.model.ProcessingCenter;
+import ru.jds.reboot.server.model.ProcessingServer;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -19,20 +19,20 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequestMapping("/api/v1")
 public class ServerController {
 
-    private AtomicReference<ProcessingCenter> proc;
+    private AtomicReference<ProcessingServer> processing;
 
-    public ServerController(ProcessingCenter proc) {
-        this.proc = new AtomicReference<>(proc);
+    public ServerController(ProcessingServer processing) {
+        this.processing = new AtomicReference<>(processing);
     }
 
     @PostMapping("/card")
     public ResponseEntity<Object> checkCard(@RequestBody Card card) {
-        return ResponseEntity.status(proc.get().checkCard(card) ? HttpStatus.OK : HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(processing.get().checkCard(card) ? HttpStatus.OK : HttpStatus.NO_CONTENT).build();
     }
 
     @PostMapping("/balance")
     public Balance checkBalance(@RequestBody Card card) {
-        return proc.get().checkBalance(card).orElseThrow(CardNotFoundException::new);
+        return processing.get().checkBalance(card).orElseThrow(CardNotFoundException::new);
     }
 
 }

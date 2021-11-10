@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class CardService {
+public class CardCrudService implements CardService {
     private CardCrudRepository cardCrudRepository;
 
     private Optional<CardEntity> checkCard(Card card) {
@@ -28,7 +28,7 @@ public class CardService {
         return checkCard(card).isPresent();
     }
 
-    public Optional<Account> getAccountByCard(Card card) {
+    public Optional<Account> getAccount(Card card) {
         return checkCard(card)
                 .map(CardEntity::getAccount)
                 .map(accountEntity ->

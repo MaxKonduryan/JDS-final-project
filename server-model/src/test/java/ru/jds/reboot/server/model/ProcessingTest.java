@@ -3,6 +3,7 @@ package ru.jds.reboot.server.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.jds.reboot.server.service.CardService;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -10,28 +11,28 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class AbstractProcessingCenterTest {
+public class ProcessingTest {
 
-    AbstractProcessingCenter processingCenter;
+    CardService cardService;
+    Processing processingCenter;
 
     @BeforeEach
     void beforeEach() {
-        processingCenter = mock(
-                AbstractProcessingCenter.class,
-                withSettings()
-                        .useConstructor()
-                        .defaultAnswer(CALLS_REAL_METHODS)
-        );
+        cardService = mock(CardService.class);
+        processingCenter = new Processing(cardService);
     }
 
     @Test
     @DisplayName("Card - check card")
     void checkCard() {
-        when(processingCenter.isValidCard(new Card("1000200030004000", "0000"))).thenReturn(true);
+        Card card = new Card("1000200030004000", "0000");
 
-        assertTrue (processingCenter.checkCard(new Card("1000200030004000", "0000")));
+        when(cardService.isValidCard(card)).thenReturn(true);
+
+        assertTrue (processingCenter.checkCard(card));
         assertFalse(processingCenter.checkCard(new Card("1000200030004000", "1111")));
         assertFalse(processingCenter.checkCard(new Card("1000200030009999", "0000")));
     }
@@ -39,22 +40,23 @@ public class AbstractProcessingCenterTest {
     @Test
     @DisplayName("Card - check balance")
     void checkBalance() {
+        Card card = new Card("1000200030004000", "0000");
         Set<Card> cards = new HashSet<>(1);
-        cards.add(new Card("1000200030004000", "0000"));
+        cards.add(card);
         Account account = new Account(
                 cards,
                 new Balance(Currency.RUR, BigDecimal.TEN)
         );
 
-        when(processingCenter.getAccount(new Card("1000200030004000", "0000"))).thenReturn(Optional.of(account));
+        when(cardService.getAccount(card)).thenReturn(Optional.of(account));
 
         assertEquals(
                 account.getBalance().getCurrency(),
-                processingCenter.checkBalance(new Card("1000200030004000", "0000")).map(Balance::getCurrency).orElse(null)
+                processingCenter.checkBalance(card).map(Balance::getCurrency).orElse(null)
         );
         assertEquals(
                 account.getBalance().getValue(),
-                processingCenter.checkBalance(new Card("1000200030004000", "0000")).map(Balance::getValue).orElse(null)
+                processingCenter.checkBalance(card).map(Balance::getValue).orElse(null)
         );
     }
 }

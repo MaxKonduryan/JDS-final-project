@@ -1,19 +1,21 @@
-package ru.jds.reboot.client.model;
+package ru.jds.reboot.client.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ru.jds.reboot.client.model.Balance;
+import ru.jds.reboot.client.model.Card;
 
 import java.util.Optional;
 
-@Slf4j
-@Component
+@Service
 @RequiredArgsConstructor
-public class ATM extends AbstractATM {
+@Slf4j
+public class CardRestService implements CardService{
 
     @Value("${processing.url.card}")
     private String processingUrlCard;
@@ -24,15 +26,16 @@ public class ATM extends AbstractATM {
     private final RestTemplate restTemplate;
 
     @Override
-    protected boolean checkCard(Card card) {
+    public boolean checkCard(Card card) {
         log.info("check card: {}", card.getNumber());
         ResponseEntity<Object> response = restTemplate.postForEntity(processingUrlCard, card, Object.class);
         return response.getStatusCode() == HttpStatus.OK;
     }
 
     @Override
-    protected Optional<Balance> checkBalance(Card card) {
+    public Optional<Balance> checkBalance(Card card) {
         Balance balance = restTemplate.postForObject(processingUrlBalance, card, Balance.class);
         return Optional.ofNullable(balance);
     }
+
 }

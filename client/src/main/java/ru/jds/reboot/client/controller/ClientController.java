@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.jds.reboot.client.model.ATM;
+import ru.jds.reboot.client.model.AtmClient;
 import ru.jds.reboot.client.model.Balance;
 import ru.jds.reboot.client.model.Card;
 
@@ -28,9 +28,9 @@ public class ClientController {
     @Value("${message.welcome}")
     private String messageWelcome;
 
-    private final AtomicReference<ATM> atm;
+    private final AtomicReference<AtmClient> atm;
 
-    public ClientController(ATM atm) {
+    public ClientController(AtmClient atm) {
         this.atm = new AtomicReference<>(atm);
     }
 

@@ -1,36 +1,35 @@
 package ru.jds.reboot.client.model;
 
+import lombok.RequiredArgsConstructor;
+import ru.jds.reboot.client.service.CardService;
+
 import java.util.Optional;
 
 /**
- * Абстрактный банкомат с состоянием атрибута Карта.
+ * Банкомат с состоянием атрибута Карта.
  *
  * Пользователь предъявляет карту в виде номера и пин-кода.
  * Если данные карты проходят проверку в Процессинге (ПЦ),
  * то карты принимается банкоматом и в принципе возможна
  * дальнейшая работа с картой.
  *
- * Доступные операции: проверка баланса.
+ * Доступные операции: проверка карты и баланса карты.
  *
  * Необходима внешняя реализация методов отвечающих
  * за сетевое взаимодействие с Процессингом.
  */
-public abstract class AbstractATM {
+@RequiredArgsConstructor
+public class Atm {
     private Card card;
 
-    public AbstractATM() {
-        card = null;
-    }
-
-    protected abstract boolean checkCard(Card card);
-    protected abstract Optional<Balance> checkBalance(Card card);
+    private final CardService cardService;
 
     public Optional<Card> getCard() {
         return Optional.ofNullable(card);
     }
 
     public boolean acceptCard(Card card) {
-        if (this.card == null && checkCard(card)) {
+        if (this.card == null && cardService.checkCard(card)) {
             this.card = card;
             return true;
         }
@@ -48,6 +47,6 @@ public abstract class AbstractATM {
     }
 
     public Optional<Balance> getBalance() {
-        return Optional.ofNullable(card).flatMap(this::checkBalance);
+        return Optional.ofNullable(card).flatMap(this.cardService::checkBalance);
     }
 }
