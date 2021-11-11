@@ -14,6 +14,11 @@ spring:
   h2:
     console:
       enabled: true
+  kafka:
+    server: "localhost:9092"
+    topic: "block"
+    consumer:
+      group-id: "app.1"
 
 security:
   role: ATM

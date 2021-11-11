@@ -21,13 +21,23 @@ public class CardCrudService implements CardService {
         return cardCrudRepository
                 .findById(card.getNumber())
                 .filter(cardEntity -> PasswordEncoderFactories.createDelegatingPasswordEncoder().matches(card.getPinCode(), cardEntity.getPinCode()))
+                .filter(cardEntity -> ! cardEntity.isBlocked())
                 ;
     }
 
+    public void blockCard(Card card) {
+        checkCard(card).ifPresent(cardEntity -> {
+            cardEntity.setBlocked(true);
+            cardCrudRepository.save(cardEntity);
+        });
+    }
+
+    @Override
     public boolean isValidCard(Card card) {
         return checkCard(card).isPresent();
     }
 
+    @Override
     public Optional<Account> getAccount(Card card) {
         return checkCard(card)
                 .map(CardEntity::getAccount)

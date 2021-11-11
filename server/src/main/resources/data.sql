@@ -11,6 +11,7 @@ create table account (
 create table card (
     number      varchar(20)     primary key,
     pincode     varchar(99)     default '',
+    blocked     boolean         default false,
     account     int             not null,
     foreign key (account) references account(id)
 );
@@ -35,13 +36,14 @@ insert into account (
 insert into card (
     number,
     pincode,
+    blocked,
     account
 ) values
-    ('1234', '{bcrypt}$2a$10$tTg/LBxwI8BhQ3jnPIFvkeiDQUN/Wf9/KkTPPG8t1O6MoFp0XMsdm', 1), -- 0404
-    ('1235', '{bcrypt}$2a$10$7tueEkC5vihepMfVLVTZxumeZKDOx.w9yU5pkqsOWLvAjc99MSIJG', 2), -- 0505
-    ('1236', '{bcrypt}$2a$10$lf6b/X25VOjKLzuVWU/OYeOcvC4Ij19QiNA/ANBZN9jLWT5TW4YSu', 3), -- 0606
-    ('1237', '{bcrypt}$2a$10$EAsQ83OqWEH.DsY4HlJeaeU87LUd1chMusPGgTafhRWPPXWvrUAK.', 4), -- 0707
-    ('1238', '{bcrypt}$2a$10$F9ooryqd7r/NqokVFbOcq.sp4Gu1e2Vq/4kdZPHobpWkIMf7pEMv6', 5); -- 0808
+    ('1234', '{bcrypt}$2a$10$tTg/LBxwI8BhQ3jnPIFvkeiDQUN/Wf9/KkTPPG8t1O6MoFp0XMsdm', false, 1), -- 0404
+    ('1235', '{bcrypt}$2a$10$7tueEkC5vihepMfVLVTZxumeZKDOx.w9yU5pkqsOWLvAjc99MSIJG', false, 2), -- 0505
+    ('1236', '{bcrypt}$2a$10$lf6b/X25VOjKLzuVWU/OYeOcvC4Ij19QiNA/ANBZN9jLWT5TW4YSu', false, 3), -- 0606
+    ('1237', '{bcrypt}$2a$10$EAsQ83OqWEH.DsY4HlJeaeU87LUd1chMusPGgTafhRWPPXWvrUAK.', false, 4), -- 0707
+    ('1238', '{bcrypt}$2a$10$F9ooryqd7r/NqokVFbOcq.sp4Gu1e2Vq/4kdZPHobpWkIMf7pEMv6', false, 5); -- 0808
 
 insert into atm (
     name,

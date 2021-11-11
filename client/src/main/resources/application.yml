@@ -16,3 +16,7 @@ processing:
 security:
   name: "ATM001"
   code: "100MTA"
+
+spring:
+  kafka:
+    server: "localhost:9092"

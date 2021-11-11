@@ -1,6 +1,8 @@
 package ru.jds.reboot.client.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,9 @@ public class ClientController {
 
     @Value("${message.welcome}")
     private String messageWelcome;
+
+    @Autowired
+    private KafkaTemplate<Integer, Card> kafkaTemplate;
 
     private final AtomicReference<AtmClient> atm;
 
@@ -68,6 +73,14 @@ public class ClientController {
             return isAccepted ? "redirect:/card" : "redirect:/invalid";
         } else
             return "redirect:/invalid";
+    }
+
+    @GetMapping("/block")
+    public String blockCard() {
+        if (atm.get().isPresentCard()) {
+            kafkaTemplate.send("block", Integer.valueOf(atm.get().getCard().get().hashCode()), atm.get().getCard().get());
+        }
+        return "redirect:/card";
     }
 
     @GetMapping("/card")

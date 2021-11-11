@@ -19,6 +19,9 @@ public class CardEntity {
     @Column(name = "pincode")
     private String pinCode;
 
+    @Column(name = "blocked")
+    private boolean blocked;
+
     @ManyToOne
     @JoinColumn(name = "account", nullable = false)
     private AccountEntity account;

@@ -20,6 +20,9 @@ public class Processing {
 
     private CardService cardService;
 
+    public void blockCard(Card card) {
+        cardService.blockCard(card);
+    }
     public boolean checkCard(Card card) {
         return cardService.isValidCard(card);
     }
