@@ -3,25 +3,24 @@ package ru.jds.reboot.client.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.jds.reboot.client.service.CardService;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class AbstractATMTest {
+public class AtmTest {
 
-    AbstractATM atm;
+    CardService cardService;
+    Atm atm;
 
     @BeforeEach
     void beforeEach() {
-        atm = mock(
-                AbstractATM.class,
-                withSettings()
-                        .useConstructor()
-                        .defaultAnswer(CALLS_REAL_METHODS)
-        );
+        cardService = mock(CardService.class);
+        atm = new Atm(cardService);
     }
 
     @Test
@@ -36,7 +35,7 @@ public class AbstractATMTest {
     void correctCardPinCode() {
         Card card = new Card("1000200030004000", "0000");
 
-        when(atm.checkCard(card)).thenReturn(true);
+        when(cardService.checkCard(card)).thenReturn(true);
 
         assertTrue(atm.acceptCard(card));
     }
@@ -46,7 +45,7 @@ public class AbstractATMTest {
     void invalidCardPinCode() {
         Card card = new Card("1000200030004000", "0000");
 
-        when(atm.checkCard(card)).thenReturn(false);
+        when(cardService.checkCard(card)).thenReturn(false);
 
         assertFalse(atm.acceptCard(card));
     }
@@ -56,7 +55,7 @@ public class AbstractATMTest {
     void alreadyCardThere() {
         Card card = new Card("1000200030004001", "0000");
 
-        when(atm.checkCard(card)).thenReturn(true);
+        when(cardService.checkCard(card)).thenReturn(true);
 
         atm.acceptCard(card);
         assertFalse(atm.acceptCard(new Card("1000200030004002", "1111")));
@@ -69,8 +68,8 @@ public class AbstractATMTest {
         Balance balance = new Balance(Currency.RUR, BigDecimal.TEN);
         Card card = new Card("1000200030004001", "0000");
 
-        when(atm.checkCard(card)).thenReturn(true);
-        when(atm.checkBalance(card)).thenReturn(Optional.of(balance));
+        when(cardService.checkCard(card)).thenReturn(true);
+        when(cardService.checkBalance(card)).thenReturn(Optional.of(balance));
 
         atm.acceptCard(card);
         assertEquals(balance.getCurrency(), atm.getBalance().map(Balance::getCurrency).orElse(null));

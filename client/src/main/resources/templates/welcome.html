@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:utext="${title}"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<form method="post" th:action="@{/card}">
+    <div style="margin-bottom: 50px;">
+        <h1 th:utext="${title}"></h1>
+        <input name="number" placeholder="номер карты" style="width: 250px; margin-top: 60px;">
+        <br>
+        <input name="pin" placeholder="PIN код" style="width: 80px;">
+    </div>
+    <div class="buttons">
+        <button class="button" type="submit">Вставить карту</button>
+    </div>
+</form>
+</body>
+</html>

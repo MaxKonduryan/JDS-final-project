@@ -1,8 +1,12 @@
 package ru.jds.reboot.server.model;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Value
+@AllArgsConstructor
+@Getter
+@Setter
 public class Card {
     String number;
     String pinCode;

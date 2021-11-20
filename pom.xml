@@ -4,10 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.sbrf.reboot</groupId>
-    <artifactId>project</artifactId>
+    <groupId>ru.jds.reboot</groupId>
+    <artifactId>final-project</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
+
     <modules>
         <module>client</module>
         <module>server</module>
@@ -16,8 +17,13 @@
     </modules>
 
     <properties>
+        <java.version>1.8</java.version>
+
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <lombok.version>1.18.20</lombok.version>
         <junit-jupiter.version>5.8.0</junit-jupiter.version>
@@ -44,5 +50,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>
